@@ -1,0 +1,27 @@
+### ignore deleted records
+mod.web_txorphanfilesM1.includeDeletedRecords = 0
+
+### limit the search area to only certain tables or fields
+#mod.web_txorphanfilesM1 {
+#	crawl.tt_content = *
+#	crawl.pages = *
+#	crawl.pages_language_overlay = *
+#
+#	### some extension tables
+#	crawl.tx_templavoila_tmplobj = *
+#	crawl.tt_news = *
+#	crawl.tt_news_cat = *
+#}
+### …narrow down the search even more
+### But watch out for flexform fields, the extension is not able
+### to find out where the associated DS definition can be found (just search for
+### »ds_pointerField« in your configuration and add all mentioned fields)
+#mod.web_txorphanfilesM1 {
+#	crawl.tt_content = image, media, header_link, image_link, bodytext, pi_flexform, tx_templavoila_flex, list_type, CType, tx_templavoila_ds
+#	crawl.pages = media, tx_templavoila_flex, tx_templavoila_ds, pid, tx_templavoila_next_ds
+#	crawl.pages_language_overlay = media
+#
+#	crawl.tx_templavoila_tmplobj = previewicon, fileref
+#	crawl.tt_news = image, short, bodytext, news_files, links
+#	crawl.tt_news_cat = image
+#}

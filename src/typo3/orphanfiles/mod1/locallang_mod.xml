@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="mlang_labels_tabdescr">Find and remove orphaned files</label>
+			<label index="mlang_labels_tablabel">Orphan Files</label>
+			<label index="mlang_tabs_tab">Orphan Files</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="mlang_labels_tabdescr">Finde und entferne verwaiste Dateien</label>
+			<label index="mlang_labels_tablabel">Verwaiste Dateien</label>
+			<label index="mlang_tabs_tab">Verwaiste Dateien</label>
+		</languageKey>
+	</data>
+</T3locallang>
