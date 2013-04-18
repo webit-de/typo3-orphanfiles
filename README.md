@@ -15,6 +15,13 @@ Source
 
 https://github.com/webit-de/typo3-orphanfiles/tree/master/src/typo3/orphanfiles/
 
+Documentation
+-------------
+
+Read online (HTML) https://typo3.org/extension-manuals/orphanfiles/current/
+
+Download (PDF/SXW) https://github.com/webit-de/typo3-orphanfiles/tree/master/src/typo3/orphanfiles/doc
+
 License
 -------
 
