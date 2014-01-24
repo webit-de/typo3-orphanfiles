@@ -216,7 +216,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 					// Delete all files at once
 					case 'clearall':
 						$content .= $LANG->getLL('deleted') . ':<br />';
-						if($this->modTSconfig['deleteAllButton']) {
+						if($this->modTSconfig['showDeleteAllButton']) {
 							$content .= $this->clearFiles(1);
 						}
 
@@ -254,7 +254,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 										$content .= $file['file_path'];
 									}
 									$content .= '</td>';
-									if($this->modTSconfig['deleteCheckbox']) {
+									if($this->modTSconfig['showDeleteCheckbox']) {
 										// show delete checkbox
 										$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 55px;"><input type="checkbox" id="fileUID-' . $file['uid'] . '" name="fileUID[]" value="' . $file['uid'] . '">&nbsp;<label for="fileUID-' . $file['uid'] . '">' . $LANG->getLL('clear') . '</label></td>';
 									}
@@ -266,14 +266,14 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 								}
 								$content .= '</table>';
 
-								if($this->modTSconfig['deleteCheckbox']) {
+								if($this->modTSconfig['showDeleteCheckbox']) {
 									$content .= '<input type="submit" name="submit" value="' . $LANG->getLL('clearcheckbox') . '"'
 										. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
 										. '<input type="hidden" name="cmd" value="clear">';
 								}
 								$content .= '</form>' . chr(10);
 
-								if($this->modTSconfig['deleteAllButton']) {
+								if($this->modTSconfig['showDeleteAllButton']) {
 									// Show button to delete all files at once
 									$content .= $this->doc->spacer(5);
 									$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php" method="POST" enctype="multipart/form-data">'
