@@ -182,7 +182,14 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 				if(count($orphanFiles)) {
 					foreach ($orphanFiles as $file) {
 						$content .= '<tr>';
-						$content .= '<td style="padding: 4px; padding-left: 0; border-bottom: 1px dashed #8C8C8C;">' . $file . '</td>';
+						$content .= '<td style="padding: 4px; padding-left: 0; border-bottom: 1px dashed #8C8C8C;">';
+						if(!empty($this->modTSconfig['baseurl'])) {
+							$content .= '<a href="' . $this->modTSconfig['baseurl'] . $file . '" target="_blank">' . $file . '</a>';
+						}
+						else {
+							$content .= $file;
+						}
+						$content .= '</td>';
 						$content .='</tr>' . chr(10);
 					}
 				}
