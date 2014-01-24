@@ -1,5 +1,11 @@
 2014-01-24 Dan Untenzu  <untenzu@webit.de>
 
+	* 0.3.0
+	* [FEATURE] Select multiple files to delete
+	* [FEATURE] Add options to show/hide/switch delete actions
+
+2014-01-24 Dan Untenzu  <untenzu@webit.de>
+
 	* 0.2.0
 	* [FEATURE] Cache files in queue table
 
