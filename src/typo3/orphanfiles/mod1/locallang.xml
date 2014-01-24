@@ -17,7 +17,8 @@
 			<label index="crawlingNote">Last search on %s. Select “Find files” to refresh the list of orphaned files.</label>
 			<label index="crawlingError">Last search was corrupt. Please start another search process.</label>
 			<label index="clear">Delete</label>
-			<label index="clearall">Delete all files</label>
+			<label index="clearcheckbox">Delete selected files</label>
+			<label index="clearall">Delete all files at once</label>
 			<label index="clearall_confirm">Are you sure you want to delete all these files?\nThe files will be completely deleted and can not be restored!</label>
 			<label index="deleted">Successfully deleted file</label>
 			<label index="description">This tool finds any file uploaded by an editor which is not used anymore in the CMS and offers a way to delete it. A file is »orphaned« if it is not referenced in the CMS by an upload field, a link in an input field nor inside of a text. Please note that no backup is made, the files will be completely deleted, so be careful and use this extension at your own risk. Please have in mind that TYPO3 is creating a copy of a file for most file uploads. The copy in »/uploads/« (a system folder, which is not selectable by an editor) will remain if it's referenced in the CMS, but the original file in the filestorage in »/fileadmin/user_upload/« will be marked as orphaned.</label>
@@ -39,7 +40,8 @@
 			<label index="crawlingNote">Die letzte Suche wurde am %s durchgeführt. Wähen Sie „Dateien finden“ um die Liste verwaister Dateien zu aktualisieren.</label>
 			<label index="crawlingError">Die letzte Suche war fehlerhaft. Bitte starten Sie einen neuen Suchprozess.</label>
 			<label index="clear">Löschen</label>
-			<label index="clearall">Lösche alle Dateien</label>
+			<label index="clearcheckbox">Lösche ausgewählte Dateien</label>
+			<label index="clearall">Lösche alle Dateien auf einmal</label>
 			<label index="clearall_confirm">Sind Sie sicher das Sie all diese Dateien löschen möchten?\nDie Dateien werden vollständig entfernt und sind nicht wiederherstellbar!</label>
 			<label index="deleted">Die Datei wurde erfolgreich gelöscht</label>
 			<label index="description">Dieses Werkezug findet jede vom Redakteur hochgeladene Datei die nicht mehr im CMS verwendet wird und bietet an diese zu löschen. Eine Datei gilt dann als »verwaist«, wenn sie im CMS weder über ein Upload-Feld noch über einen Link in einem Eingabefeld oder innerhalb eines Textes referenziert wird. Bitte beachte, dass keine Backups der Dateien erstellt werden, die Dateien werden vollständig gelöscht, sei also vorsichtig und benutze diese Extension auf eigenes Risiko. Bitte auch bedenken, dass TYPO3 für die meisten Dateiuploads eine Kopie der Originaldatei erstellt. Dadurch wird die Kopie unter »/uploads/« (ein Systemordner, der nicht von Redakteuren angewählt werden kann) erhalten bleiben wenn sie im CMS referenziert ist, das Original in der Dateiliste unter »/fileadmin/user_upload/« gilt jedoch als verwaist.</label>

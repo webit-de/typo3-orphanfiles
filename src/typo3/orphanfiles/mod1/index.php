@@ -204,53 +204,24 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 			case 3:
 				$cmd = t3lib_div::_GP('cmd');
 				switch($cmd) {
-					// Delete single file
+					// Delete selected file/files
 					case 'clear':
-						// select file to delete
-						$fileUID = intval(t3lib_div::_GET('fileUID'));
-						$fileToDelete = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-							'file_path',
-							'tx_orphanfiles_queue',
-							'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileUID)
-						);
-
-						// delete file
-						unlink(PATH_site . $fileToDelete['file_path']);
-						// remove file from queue
-						$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-							'tx_orphanfiles_queue',
-							'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileUID)
-						);
-
 						$content .= $LANG->getLL('deleted') . ':<br />';
-						$content .= $fileToDelete['file_path'] . '<br />';
+						$content .= $this->clearFiles(0);
 
 						$content .= '<a style="display: block; margin-top: 30px;" href="index.php">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClear'), $content, 0, 1);
 						break;
 
 					// Delete all files at once
-					case 'clearfiles':
-						// Select all files to delete
-						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-							'file_path',
-							'tx_orphanfiles_queue',
-							''
-						);
-
-						if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
-							$content .= $LANG->getLL('deleted') . ':<br />';
-							while($fileToDelete = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-								// delete file
-								unlink(PATH_site . $fileToDelete['file_path']);
-								$content .= $fileToDelete['file_path'] . '<br />';
-							}
-							$GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_orphanfiles_queue');
+					case 'clearall':
+						$content .= $LANG->getLL('deleted') . ':<br />';
+						if($this->modTSconfig['deleteAllButton']) {
+							$content .= $this->clearFiles(1);
 						}
 
+						$content .= '<a style="display: block; margin-top: 30px;" href="index.php">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClearall'), $content, 0, 1);
-						$this->content .= $this->doc->spacer(5);
-						$this->content .= '<a href="index.php">' . $LANG->getLL('backlink') . '</a>';
 						break;
 
 					// List all orphaned files and show delete actions
@@ -270,7 +241,9 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 
 							if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 								$content .= $this->doc->sectionHeader(sprintf($LANG->getLL('crawlingNote'), date('d M Y H:i', $crawlingProcess['tstamp'])));
-								$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">'.chr(10);
+
+								$content .= '<form name="clear" action="index.php" method="POST" enctype="multipart/form-data">';
+								$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">' . chr(10);
 								while($file = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 									$content .= '<tr>';
 									$content .= '<td style="padding: 4px; padding-left: 0;  border-bottom: 1px dashed #8C8C8C;">';
@@ -281,18 +254,35 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 										$content .= $file['file_path'];
 									}
 									$content .= '</td>';
-									// show delete button
-									$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 40px;"><a style="display: inline-block; background: #FF8700; padding: 3px;" href="index.php?cmd=clear&fileUID=' . urlencode($file['uid']) . '">' . $LANG->getLL('clear') . '</a></td>';
+									if($this->modTSconfig['deleteCheckbox']) {
+										// show delete checkbox
+										$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 55px;"><input type="checkbox" id="fileUID-' . $file['uid'] . '" name="fileUID[]" value="' . $file['uid'] . '">&nbsp;<label for="fileUID-' . $file['uid'] . '">' . $LANG->getLL('clear') . '</label></td>';
+									}
+									else {
+										// show delete button
+										$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 40px;"><a style="display: inline-block; background: #FF8700; padding: 3px;" href="index.php?cmd=clear&fileUID[]=' . urlencode($file['uid']) . '">' . $LANG->getLL('clear') . '</a></td>';
+									}
 									$content .= '</tr>' . chr(10);
 								}
 								$content .= '</table>';
-								// Show button to delete all files at once
-								$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php" method="POST" enctype="multipart/form-data">'
-									. '<input type="submit" name="submit" value="' . $LANG->getLL('clearall') . '"'
-									. ' onClick="return confirm(\'' . $LANG->getLL('clearall_confirm') . '\');"'
-									. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
-									. '<input type="hidden" name="cmd" value="clearfiles">'
-									. '</form>' . chr(10);
+
+								if($this->modTSconfig['deleteCheckbox']) {
+									$content .= '<input type="submit" name="submit" value="' . $LANG->getLL('clearcheckbox') . '"'
+										. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
+										. '<input type="hidden" name="cmd" value="clear">';
+								}
+								$content .= '</form>' . chr(10);
+
+								if($this->modTSconfig['deleteAllButton']) {
+									// Show button to delete all files at once
+									$content .= $this->doc->spacer(5);
+									$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php" method="POST" enctype="multipart/form-data">'
+										. '<input type="submit" name="submit" value="' . $LANG->getLL('clearall') . '"'
+										. ' onClick="return confirm(\'' . $LANG->getLL('clearall_confirm') . '\');"'
+										. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
+										. '<input type="hidden" name="cmd" value="clearall">'
+										. '</form>' . chr(10);
+								}
 							}
 							else {
 								$content .= '<p>' . $LANG->getLL('noFiles') . '</p>';
@@ -638,6 +628,53 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 
 		return $fileStack;
 	}
+
+	/*
+	 * Remove files from filesystem and queue table
+	 *
+	 * @param	bool		Remove selected file/files OR all files
+	 *
+	 * @return	string		Log of deleted files
+	 */
+	function clearFiles($deleteAll = 0) {
+		$content = '';
+
+		// selection
+		$where = '';
+		if(!$deleteAll) {
+			$list = '';
+			$fileUIDs = t3lib_div::_GP('fileUID');
+			foreach ($fileUIDs as $fileUID) {
+				$list .= ',' . intval($fileUID);
+			}
+			$where = 'uid IN (' . substr($list, 1) . ')';
+		}
+
+		// Select all files to delete
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid,file_path',
+			'tx_orphanfiles_queue',
+			$where
+		);
+
+		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
+			while($fileToDelete = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				// delete file
+				unlink(PATH_site . $fileToDelete['file_path']);
+
+				// remove file from queue
+				$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+					'tx_orphanfiles_queue',
+					'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileToDelete['uid'])
+				);
+
+				$content .= $fileToDelete['file_path'] . '<br />';
+			}
+		}
+
+		return $content;
+	}
+
 
 	/*
 	 * Prepare the queue tables for the next crawling process

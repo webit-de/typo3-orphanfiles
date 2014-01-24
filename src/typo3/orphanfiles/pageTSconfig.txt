@@ -1,5 +1,8 @@
 ### ignore deleted records
 mod.web_txorphanfilesM1.includeDeletedRecords = 0
+#mod.web_txorphanfilesM1.baseurl = http://example.com/
+mod.web_txorphanfilesM1.deleteAllButton = 0
+mod.web_txorphanfilesM1.deleteCheckbox = 0
 
 ### limit the search area to only certain tables or fields
 #mod.web_txorphanfilesM1 {
