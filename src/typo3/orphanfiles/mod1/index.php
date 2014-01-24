@@ -114,21 +114,21 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 
 			$headerSection = $this->doc->getHeader('pages',$this->pageinfo,$this->pageinfo['_thePath']) . '<br>' . $LANG->php3Lang['labels']['path'] . ': ' . t3lib_div::fixed_lgd_cs($this->pageinfo['_thePath'], 50);
 
-			$this->content.=$this->doc->startPage($LANG->getLL('title'));
-			$this->content.=$this->doc->header($LANG->getLL('title'));
-			$this->content.=$this->doc->spacer(5);
-			$this->content.=$this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
-			$this->content.=$this->doc->divider(5);
+			$this->content .= $this->doc->startPage($LANG->getLL('title'));
+			$this->content .= $this->doc->header($LANG->getLL('title'));
+			$this->content .= $this->doc->spacer(5);
+			$this->content .= $this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
+			$this->content .= $this->doc->divider(5);
 
 			// Render content:
 			$this->moduleContent();
 
 			// ShortCut
 			if ($BE_USER->mayMakeShortcut())	{
-				$this->content.=$this->doc->spacer(20).$this->doc->section('',$this->doc->makeShortcutIcon('id',implode(',',array_keys($this->MOD_MENU)),$this->MCONF['name']));
+				$this->content .= $this->doc->spacer(20).$this->doc->section('',$this->doc->makeShortcutIcon('id',implode(',',array_keys($this->MOD_MENU)),$this->MCONF['name']));
 			}
 
-			$this->content.=$this->doc->spacer(10);
+			$this->content .= $this->doc->spacer(10);
 		}
 		else {
 			// If no access or if ID == zero
@@ -136,10 +136,10 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 			$this->doc = t3lib_div::makeInstance('mediumDoc');
 			$this->doc->backPath = $BACK_PATH;
 
-			$this->content.=$this->doc->startPage($LANG->getLL('title'));
-			$this->content.=$this->doc->header($LANG->getLL('title'));
-			$this->content.=$this->doc->spacer(5);
-			$this->content.=$this->doc->spacer(10);
+			$this->content .= $this->doc->startPage($LANG->getLL('title'));
+			$this->content .= $this->doc->header($LANG->getLL('title'));
+			$this->content .= $this->doc->spacer(5);
+			$this->content .= $this->doc->spacer(10);
 		}
 	}
 
@@ -151,7 +151,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 	function printContent()	{
 		global $SOBE;
 
-		$this->content.=$this->doc->endPage();
+		$this->content .= $this->doc->endPage();
 		echo $this->content;
 	}
 
@@ -168,14 +168,12 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 			// Introduction text
 			case 1:
 				$content = $LANG->getLL('description');
-				$this->content.=$this->doc->section($LANG->getLL('titleIntroduction'), $content, 0, 1);
+				$this->content .= $this->doc->section($LANG->getLL('titleIntroduction'), $content, 0, 1);
 				break;
 
 			// Crawl Files
 			case 2:
-				//$content = print_r($this->crawlFiles(), TRUE);
-
-				// Get all deletable files
+				// Get all deletable files - Can be very time consuming
 				$orphanFiles = $this->crawlFiles();
 
 				$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">'.chr(10);
