@@ -12,7 +12,10 @@
 			<label index="titleClear">Deleting one file</label>
 			<label index="titleClearall">Delete all files</label>
 			<label index="noFiles">No orphan file found!</label>
+			<label index="filesFound">Finished searching. %d orphaned files found!</label>
 			<label index="backlink">← back</label>
+			<label index="crawlingNote">Last search on %s. Select “Find files” to refresh the list of orphaned files.</label>
+			<label index="crawlingError">Last search was corrupt. Please start another search process.</label>
 			<label index="clear">Delete</label>
 			<label index="clearall">Delete all files</label>
 			<label index="clearall_confirm">Are you sure you want to delete all these files?\nThe files will be completely deleted and can not be restored!</label>
@@ -31,7 +34,10 @@
 			<label index="titleClear">Lösche eine Datei</label>
 			<label index="titleClearall">Lösche alle Dateien</label>
 			<label index="noFiles">Keine verwaiste Datei gefunden!</label>
+			<label index="filesFound">Suche beendet. %d verwaiste Datei gefunden!</label>
 			<label index="backlink">← zurück</label>
+			<label index="crawlingNote">Die letzte Suche wurde am %s durchgeführt. Wähen Sie „Dateien finden“ um die Liste verwaister Dateien zu aktualisieren.</label>
+			<label index="crawlingError">Die letzte Suche war fehlerhaft. Bitte starten Sie einen neuen Suchprozess.</label>
 			<label index="clear">Löschen</label>
 			<label index="clearall">Lösche alle Dateien</label>
 			<label index="clearall_confirm">Sind Sie sicher das Sie all diese Dateien löschen möchten?\nDie Dateien werden vollständig entfernt und sind nicht wiederherstellbar!</label>

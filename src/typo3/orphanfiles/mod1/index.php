@@ -176,8 +176,9 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 				// Get all deletable files - Can be very time consuming
 				$orphanFiles = $this->crawlFiles();
 
-				$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">'.chr(10);
+				$content .= $this->doc->sectionHeader(sprintf($LANG->getLL('filesFound'), count($orphanFiles)));
 				if(count($orphanFiles)) {
+					$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">'.chr(10);
 					foreach ($orphanFiles as $file) {
 						$content .= '<tr>';
 						$content .= '<td style="padding: 4px; padding-left: 0; border-bottom: 1px dashed #8C8C8C;">';
@@ -188,16 +189,15 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 							$content .= $file;
 						}
 						$content .= '</td>';
-						$content .='</tr>' . chr(10);
+						$content .= '</tr>' . chr(10);
 					}
+					$content .= '</table>';
 				}
 				else {
-					$content .= '<tr><td>' . $LANG->getLL('noFiles') . '</td></tr>';
+					$content .= '<p>' . $LANG->getLL('noFiles') . '</p>';
 				}
-				$content .= '</table>';
 
-
-				$this->content.=$this->doc->section($LANG->getLL('titleCrawling'), $content, 0, 1);
+				$this->content .= $this->doc->section($LANG->getLL('titleCrawling'), $content, 0, 1);
 				break;
 
 			// Delete files
@@ -206,14 +206,24 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 				switch($cmd) {
 					// Delete single file
 					case 'clear':
-						$content .= $LANG->getLL('deleted') . ':<br />';
-
-						$fileToDelete = t3lib_div::_GET('file');
+						// select file to delete
+						$fileUID = intval(t3lib_div::_GET('fileUID'));
+						$fileToDelete = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+							'file_path',
+							'tx_orphanfiles_queue',
+							'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileUID)
+						);
 
 						// delete file
-						unlink(PATH_site . $fileToDelete);
+						unlink(PATH_site . $fileToDelete['file_path']);
+						// remove file from queue
+						$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+							'tx_orphanfiles_queue',
+							'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileUID)
+						);
 
-						$content .= $fileToDelete . '<br />';
+						$content .= $LANG->getLL('deleted') . ':<br />';
+						$content .= $fileToDelete['file_path'] . '<br />';
 
 						$content .= '<a style="display: block; margin-top: 30px;" href="index.php">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClear'), $content, 0, 1);
@@ -221,61 +231,78 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 
 					// Delete all files at once
 					case 'clearfiles':
-						// Get all deletable files
-						$orphanFiles = $this->crawlFiles();
+						// Select all files to delete
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+							'file_path',
+							'tx_orphanfiles_queue',
+							''
+						);
 
-						if(count($orphanFiles)) {
+						if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 							$content .= $LANG->getLL('deleted') . ':<br />';
-
-							foreach ($orphanFiles as $fileToDelete) {
+							while($fileToDelete = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 								// delete file
-								unlink(PATH_site . $fileToDelete);
-
-								$content .= $fileToDelete . '<br />';
+								unlink(PATH_site . $fileToDelete['file_path']);
+								$content .= $fileToDelete['file_path'] . '<br />';
 							}
-						}
-						else {
-							$content .= '<tr><td>'.$LANG->getLL('noFiles').'</td></tr>';
+							$GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_orphanfiles_queue');
 						}
 
-						$this->content.=$this->doc->section($LANG->getLL('titleClearall'), $content, 0, 1);
-						$this->content.=$this->doc->spacer(5);
-						$this->content.='<a href="index.php">' . $LANG->getLL('backlink') . '</a>';
+						$this->content .= $this->doc->section($LANG->getLL('titleClearall'), $content, 0, 1);
+						$this->content .= $this->doc->spacer(5);
+						$this->content .= '<a href="index.php">' . $LANG->getLL('backlink') . '</a>';
 						break;
 
-					// Read files and compare them to database. Can be very time consuming
+					// List all orphaned files and show delete actions
 					default:
-						// Get all deletable files
-						$orphanFiles = $this->crawlFiles();
+						$crawlingProcess = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+							'tstamp',
+							'tx_orphanfiles_process',
+							'active=0 AND deleted=0'
+						);
+						if(!empty($crawlingProcess)) {
+							// Get all deletable files
+							$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+								'uid,file_path',
+								'tx_orphanfiles_queue',
+								''
+							);
 
-						$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">'.chr(10);
-						if(count($orphanFiles)) {
-							foreach ($orphanFiles as $file) {
-								$content .= '<tr>';
-								$content .= '<td style="padding: 4px; padding-left: 0;  border-bottom: 1px dashed #8C8C8C;">';
-								if(!empty($this->modTSconfig['baseurl'])) {
-									$content .= '<a href="' . $this->modTSconfig['baseurl'] . $file . '" target="_blank">' . $file . '</a>';
+							if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
+								$content .= $this->doc->sectionHeader(sprintf($LANG->getLL('crawlingNote'), date('d M Y H:i', $crawlingProcess['tstamp'])));
+								$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">'.chr(10);
+								while($file = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+									$content .= '<tr>';
+									$content .= '<td style="padding: 4px; padding-left: 0;  border-bottom: 1px dashed #8C8C8C;">';
+									if(!empty($this->modTSconfig['baseurl'])) {
+										$content .= '<a href="' . $this->modTSconfig['baseurl'] . $file['file_path'] . '" target="_blank">' . $file['file_path'] . '</a>';
+									}
+									else {
+										$content .= $file['file_path'];
+									}
+									$content .= '</td>';
+									// show delete button
+									$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 40px;"><a style="display: inline-block; background: #FF8700; padding: 3px;" href="index.php?cmd=clear&fileUID=' . urlencode($file['uid']) . '">' . $LANG->getLL('clear') . '</a></td>';
+									$content .= '</tr>' . chr(10);
 								}
-								else {
-									$content .= $file;
-								}
-								$content .= '</td>';
-								$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 40px;"><a style="display: inline-block; background: #FF8700; padding: 3px;" href="index.php?cmd=clear&file=' . urlencode($file) . '">' . $LANG->getLL('clear') . '</a></td>';
-								$content .='</tr>' . chr(10);
+								$content .= '</table>';
+								// Show button to delete all files at once
+								$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php" method="POST" enctype="multipart/form-data">'
+									. '<input type="submit" name="submit" value="' . $LANG->getLL('clearall') . '"'
+									. ' onClick="return confirm(\'' . $LANG->getLL('clearall_confirm') . '\');"'
+									. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
+									. '<input type="hidden" name="cmd" value="clearfiles">'
+									. '</form>' . chr(10);
+							}
+							else {
+								$content .= '<p>' . $LANG->getLL('noFiles') . '</p>';
 							}
 						}
 						else {
-							$content .= '<tr><td>' . $LANG->getLL('noFiles') . '</td></tr>';
+							// no valid crawling process found
+							$content .= $this->doc->sectionHeader($LANG->getLL('crawlingError'));
 						}
-						$content .= '</table>';
 
-						// Button to delete all files at once
-						$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php" method="POST" enctype="multipart/form-data">'
-							. '<input type="submit" name="submit" value="' . $LANG->getLL('clearall') . '"'
-							. ' onClick="return confirm(\'' . $LANG->getLL('clearall_confirm') . '\');"'
-							. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
-							. '<input type="hidden" name="cmd" value="clearfiles">'
-							. '</form>' . chr(10);
 						$this->content .= $this->doc->section($LANG->getLL('titleDeletion'), $content, 0, 1);
 						break;
 				}
@@ -613,14 +640,84 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 	}
 
 	/*
+	 * Prepare the queue tables for the next crawling process
+	 *
+	 * @return	int	UID of the new crawling process
+	 */
+	function startQueue() {
+		// flush queue
+		$GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_orphanfiles_queue');
+
+		// scrub previous crawling processes
+		$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+			'tx_orphanfiles_process',
+			'',
+			array(
+				'deleted' => 1,
+				'active' => 0,
+			)
+		);
+
+		// add new process
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'tx_orphanfiles_process',
+			array(
+				'tstamp' => time(),
+				'crdate' => time(),
+				'active' => 1,
+			)
+		);
+		// get process ID
+		$id = $GLOBALS['TYPO3_DB']->sql_insert_id('tx_orphanfiles_process');
+
+		return $id;
+	}
+
+	/*
+	 * Fill the queue tables with all files found and end the crawling process
+	 *
+	 * @param	 int		UID of the current crawling process
+	 * @param	 array		Set of filenames
+	 *
+	 * @return	void
+	 */
+	function endQueue(&$processUID, &$orphanFiles) {
+		// fill queue
+		foreach ($orphanFiles as $orphanFile) {
+			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+				'tx_orphanfiles_queue',
+				array(
+					'crdate' => time(),
+					'file_path' => $orphanFile,
+				)
+			);
+		}
+
+		// end crawling processes
+		$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+			'tx_orphanfiles_process',
+			'uid=' . $processUID,
+			array(
+				'tstamp' => time(),
+				'active' => 0,
+				'filecount' => count($orphanFiles),
+			)
+		);
+	}
+
+	/*
 	 * Crawl for all referenced and stored files
 	 *
 	 */
 	function crawlFiles() {
+		$processUID = $this->startQueue();
+
 		$referencedFiles = $this->findReferencedFiles();
 		$filesystemFiles = $this->findFilesystemFiles();
 
 		$orphanFiles = array_diff($filesystemFiles, $referencedFiles);
+
+		$this->endQueue($processUID, $orphanFiles);
 
 		return $orphanFiles;
 	}
