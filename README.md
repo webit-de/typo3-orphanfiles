@@ -6,8 +6,6 @@ This TYPO3 backend extension finds any file uploaded by an editor which is not u
 TYPO3 Package
 -------------
 
-T3X Package https://typo3.org/extensions/repository/download/orphanfiles/0.1.0/t3x/
-
 TER Entry http://typo3.org/extensions/repository/view/orphanfiles/
 
 Source
