@@ -1,3 +1,9 @@
+2014-04-01 Dan Untenzu  <untenzu@webit.de>
+
+	* 0.3.1
+	* [BUGFIX] Take account of selected page
+	* [TASK] Update documentation
+
 2014-01-24 Dan Untenzu  <untenzu@webit.de>
 
 	* 0.3.0
