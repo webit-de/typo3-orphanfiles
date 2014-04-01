@@ -209,7 +209,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 						$content .= $LANG->getLL('deleted') . ':<br />';
 						$content .= $this->clearFiles(0);
 
-						$content .= '<a style="display: block; margin-top: 30px;" href="index.php">' . $LANG->getLL('backlink') . '</a>';
+						$content .= '<a style="display: block; margin-top: 30px;" href="index.php?id=' . $this->id . '">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClear'), $content, 0, 1);
 						break;
 
@@ -220,7 +220,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 							$content .= $this->clearFiles(1);
 						}
 
-						$content .= '<a style="display: block; margin-top: 30px;" href="index.php">' . $LANG->getLL('backlink') . '</a>';
+						$content .= '<a style="display: block; margin-top: 30px;" href="index.php?id=' . $this->id . '">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClearall'), $content, 0, 1);
 						break;
 
@@ -242,7 +242,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 							if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 								$content .= $this->doc->sectionHeader(sprintf($LANG->getLL('crawlingNote'), date('d M Y H:i', $crawlingProcess['tstamp'])));
 
-								$content .= '<form name="clear" action="index.php" method="POST" enctype="multipart/form-data">';
+								$content .= '<form name="clear" action="index.php?id=' . $this->id . '" method="POST" enctype="multipart/form-data">';
 								$content .= '<table width="470" border="0" cellspacing="2" cellpadding="2">' . chr(10);
 								while($file = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 									$content .= '<tr>';
@@ -260,7 +260,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 									}
 									else {
 										// show delete button
-										$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 40px;"><a style="display: inline-block; background: #FF8700; padding: 3px;" href="index.php?cmd=clear&fileUID[]=' . urlencode($file['uid']) . '">' . $LANG->getLL('clear') . '</a></td>';
+										$content .= '<td style="padding: 4px; padding-right: 0; border-bottom: 1px dashed #8C8C8C; width: 40px;"><a style="display: inline-block; background: #FF8700; padding: 3px;" href="index.php?id=' . $this->id . '&cmd=clear&fileUID[]=' . urlencode($file['uid']) . '">' . $LANG->getLL('clear') . '</a></td>';
 									}
 									$content .= '</tr>' . chr(10);
 								}
@@ -276,7 +276,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 								if($this->modTSconfig['showDeleteAllButton']) {
 									// Show button to delete all files at once
 									$content .= $this->doc->spacer(5);
-									$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php" method="POST" enctype="multipart/form-data">'
+									$content .= '<form style="margin-top: 30px;" name="clearall" action="index.php?id=' . $this->id . '" method="POST" enctype="multipart/form-data">'
 										. '<input type="submit" name="submit" value="' . $LANG->getLL('clearall') . '"'
 										. ' onClick="return confirm(\'' . $LANG->getLL('clearall_confirm') . '\');"'
 										. ' style="border: 1px solid #black; background-color: #FFAD37; width: 470px;">'
