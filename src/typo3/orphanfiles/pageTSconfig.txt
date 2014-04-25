@@ -2,6 +2,7 @@
 mod.web_txorphanfilesM1.includeDeletedRecords = 0
 mod.web_txorphanfilesM1.showDeleteAllButton = 0
 mod.web_txorphanfilesM1.showDeleteCheckbox = 0
+mod.web_txorphanfilesM1.clearCacheAfterDeletion = 0
 #mod.web_txorphanfilesM1.baseurl = http://example.com/
 
 ### limit the search area to only certain tables or fields

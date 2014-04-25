@@ -208,6 +208,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 					case 'clear':
 						$content .= $LANG->getLL('deleted') . ':<br />';
 						$content .= $this->clearFiles(0);
+						$this->clearCache();
 
 						$content .= '<a style="display: block; margin-top: 30px;" href="index.php?id=' . $this->id . '">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClear'), $content, 0, 1);
@@ -219,9 +220,11 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 						if($this->modTSconfig['showDeleteAllButton']) {
 							$content .= $this->clearFiles(1);
 						}
+						$this->clearCache();
 
 						$content .= '<a style="display: block; margin-top: 30px;" href="index.php?id=' . $this->id . '">' . $LANG->getLL('backlink') . '</a>';
 						$this->content .= $this->doc->section($LANG->getLL('titleClearall'), $content, 0, 1);
+
 						break;
 
 					// List all orphaned files and show delete actions
@@ -675,6 +678,29 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 		return $content;
 	}
 
+	/*
+	 * Clear cache (if enabled in TSconfig)
+	 *
+	 * @return	void
+	 */
+	function clearCache() {
+		// extensions should not clear the cache,
+		// activate this option only if necessary
+		if($this->modTSconfig['clearCacheAfterDeletion']) {
+			$TCE = t3lib_div::makeInstance('t3lib_TCEmain');
+			//$TCE->admin = 1;
+			//$TCE->clear_cacheCmd('all');
+			// avoid hacking the admin-flag
+			$pages = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'uid',
+				'pages',
+				''
+			);
+			foreach ($pages as $page) {
+				$TCE->clear_cacheCmd($page['uid']);
+			}
+		}
+	}
 
 	/*
 	 * Prepare the queue tables for the next crawling process
