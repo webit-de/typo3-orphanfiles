@@ -479,7 +479,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 						// filelinks in input fields or textareas
 						else if(($imageField['type'] == 'input') OR ($imageField['type'] == 'text')) {
 							// grep for file links to mountable folders /fileadmin and /uploads
-							preg_match_all('/(fileadmin|uploads)\/(\w|-|\/)+\.\w{2,4}/', $fieldContent, $files);
+							preg_match_all('/(fileadmin|uploads)\/(\w|-|\.|\/)+\.\w{2,4}/', $fieldContent, $files);
 							$fileStack = array_merge($fileStack, $files[0]);
 						}
 					}
@@ -561,7 +561,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 						// filelinks in input fields or textareas
 						else if(($GLOBALS['TCA'][$table]['columns'][$fieldName]['config']['type'] == 'input') OR ($GLOBALS['TCA'][$table]['columns'][$fieldName]['config']['type'] == 'text')) {
 							// grep for file links to mountable folders /fileadmin and /uploads
-							preg_match_all('/(fileadmin|uploads)\/(\w|-|\/)+\.\w{2,4}/', $fieldContent, $files);
+							preg_match_all('/(fileadmin|uploads)\/(\w|-|\.|\/)+\.\w{2,4}/', $fieldContent, $files);
 							$fileStack = array_merge($fileStack, $files[0]);
 						}
 						// analyze flexform xml
