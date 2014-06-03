@@ -1,3 +1,8 @@
+2014-05-09 Dan Untenzu  <untenzu@webit.de>
+
+	* 0.3.3
+	* [!!][BUGFIX] Fixed regex to detect filenames
+
 2014-04-25 Dan Untenzu  <untenzu@webit.de>
 
 	* 0.3.2
