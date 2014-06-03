@@ -478,8 +478,10 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 						}
 						// filelinks in input fields or textareas
 						else if(($imageField['type'] == 'input') OR ($imageField['type'] == 'text')) {
+							// decode URL-encoded filepath in textareas (»foo_%C3%A4%C3%B6%C3%BC%C3%9F.gif« → »foo_äöüß.gif«)
+							$fieldContent = urldecode($fieldContent);
 							// grep for file links to mountable folders /fileadmin and /uploads
-							preg_match_all('/(fileadmin|uploads)\/(\w|-|\.|\/)+\.\w{2,4}/', $fieldContent, $files);
+							preg_match_all('/(fileadmin|uploads)\/\S+\.\w{2,4}/', $fieldContent, $files);
 							$fileStack = array_merge($fileStack, $files[0]);
 						}
 					}
@@ -560,8 +562,10 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 						}
 						// filelinks in input fields or textareas
 						else if(($GLOBALS['TCA'][$table]['columns'][$fieldName]['config']['type'] == 'input') OR ($GLOBALS['TCA'][$table]['columns'][$fieldName]['config']['type'] == 'text')) {
+							// decode URL-encoded filepath in textareas (»foo_%C3%A4%C3%B6%C3%BC%C3%9F.gif« → »foo_äöüß.gif«)
+							$fieldContent = urldecode($fieldContent);
 							// grep for file links to mountable folders /fileadmin and /uploads
-							preg_match_all('/(fileadmin|uploads)\/(\w|-|\.|\/)+\.\w{2,4}/', $fieldContent, $files);
+							preg_match_all('/(fileadmin|uploads)\/\S+\.\w{2,4}/', $fieldContent, $files);
 							$fileStack = array_merge($fileStack, $files[0]);
 						}
 						// analyze flexform xml
