@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
 	'author_company' => '',
-	'version' => '0.3.3',
+	'version' => '0.3.4',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '4.5.0-6.0.99',
@@ -39,7 +39,6 @@ $EM_CONF[$_EXTKEY] = array(
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => 'a:14:{s:9:"ChangeLog";s:4:"0a9b";s:12:"ext_icon.gif";s:4:"e351";s:17:"ext_localconf.php";s:4:"4fe0";s:14:"ext_tables.php";s:4:"b213";s:16:"pageTSconfig.txt";s:4:"255a";s:10:"README.txt";s:4:"d41d";s:14:"doc/manual.pdf";s:4:"a46e";s:14:"doc/manual.sxw";s:4:"d357";s:14:"mod1/clear.gif";s:4:"cc11";s:13:"mod1/conf.php";s:4:"10e2";s:14:"mod1/index.php";s:4:"2daf";s:18:"mod1/locallang.xml";s:4:"4c6a";s:22:"mod1/locallang_mod.xml";s:4:"4925";s:19:"mod1/moduleicon.gif";s:4:"e351";}',
 	'suggests' => array(
 	),
 );
