@@ -1,0 +1,4 @@
+﻿.. |img-screenshot-backend|      image:: Images/screenshot-backend.png
+   :width: 622
+   :height: 289
+   :alt: Screenshot Backend
