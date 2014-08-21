@@ -16,9 +16,9 @@ https://github.com/webit-de/typo3-orphanfiles/tree/master/src/typo3/orphanfiles/
 Documentation
 -------------
 
-Read online (HTML) https://typo3.org/extension-manuals/orphanfiles/current/
+Read online (HTML) http://docs.typo3.org/typo3cms/extensions/orphanfiles/
 
-Download (PDF/SXW) https://github.com/webit-de/typo3-orphanfiles/tree/master/src/typo3/orphanfiles/doc
+Download (PDF) http://docs.typo3.org/typo3cms/extensions/orphanfiles/_pdf/
 
 License
 -------
@@ -30,13 +30,20 @@ The GNU General Public License can be found at http://www.gnu.org/copyleft/gpl.h
 Author
 ------
 
-Dan Untenzu <untenzu@webit.de> for webit! Gesellschaft für neue Medien mbH
-(http://www.webit.de/)
+Dan Untenzu (<untenzu@webit.de> / [@pixelbrackets](https://github.com/pixelbrackets))
+for webit! Gesellschaft für neue Medien mbH (http://www.webit.de/)
 
 This extension is a fork of EXT:kb_cleanfiles, which was written by
 Bernhard Kraft <kraftb@gmx.net> and Thorsten Reichelt <Thorsten_Reichelt@gmx.de>.
 
+Changelog
+---------
+
+https://github.com/webit-de/typo3-orphanfiles/blob/master/src/typo3/orphanfiles/Changelog.md
+
 Contribution
 ------------
 
-This extension is Open Source so please use, patch, extend or fork it.
+> TYPO3 - inspiring people to share!
+
+This TYPO3 extension is Open Source, so please use, patch, extend or fork it.
