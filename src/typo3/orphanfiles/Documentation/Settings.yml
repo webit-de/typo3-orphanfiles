@@ -1,0 +1,14 @@
+conf.py:
+  project: Orphan Files
+  version: 0.1.0
+  release: 0.1.0
+  latex_documents:
+  - - Index
+    - orphanfiles.tex
+    - Orphan Files
+    - Dan Untenzu
+    - manual
+  latex_elements:
+    papersize: a4paper
+    pointsize: 10pt
+    preamble: \usepackage{typo3}
