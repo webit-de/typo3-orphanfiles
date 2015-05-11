@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2015-05-11 Dan Untenzu <untenzu@webit.de>
+
+  * 0.3.5
+  * BUGFIX Avoid PHP warnings
+  * FEATURE Load t3lib scripts if existing only
+
 2014-08-21 Dan Untenzu <untenzu@webit.de>
 
   * 0.3.4
