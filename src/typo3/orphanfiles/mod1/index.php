@@ -534,7 +534,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 			// sanitize fields
 			$tableFields = explode(',', $fields);
 			foreach ($tableFields as $tableFieldName => $tableFieldContent) {
-				$tableFields[$tableFieldName] = $GLOBALS['TYPO3_DB']->quoteStr(trim($tableFieldContent));
+				$tableFields[$tableFieldName] = $GLOBALS['TYPO3_DB']->quoteStr(trim($tableFieldContent), $table);
 			}
 			$fields = implode(',', $tableFields);
 
@@ -544,7 +544,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 			// get all records which are not deleted (we dont care about deleted records anymore)
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				$fields,
-				$GLOBALS['TYPO3_DB']->quoteStr($table),
+				$GLOBALS['TYPO3_DB']->quoteStr($table, $table),
 				$where
 			);
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -676,7 +676,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 				// remove file from queue
 				$GLOBALS['TYPO3_DB']->exec_DELETEquery(
 					'tx_orphanfiles_queue',
-					'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileToDelete['uid'])
+					'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileToDelete['uid'], 'tx_orphanfiles_queue')
 				);
 
 				$content .= $fileToDelete['file_path'] . '<br />';
