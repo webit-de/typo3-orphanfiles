@@ -670,16 +670,19 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			while($fileToDelete = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				// delete file
-				unlink(PATH_site . $fileToDelete['file_path']);
+				// check if file still exists, before attempt to delete it
+				if(file_exists(PATH_site . $fileToDelete['file_path'])) {
+					// delete file
+					unlink(PATH_site . $fileToDelete['file_path']);
 
-				// remove file from queue
-				$GLOBALS['TYPO3_DB']->exec_DELETEquery(
-					'tx_orphanfiles_queue',
-					'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileToDelete['uid'], 'tx_orphanfiles_queue')
-				);
+					// remove file from queue
+					$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+						'tx_orphanfiles_queue',
+						'uid=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($fileToDelete['uid'], 'tx_orphanfiles_queue')
+					);
 
-				$content .= $fileToDelete['file_path'] . '<br />';
+					$content .= $fileToDelete['file_path'] . '<br />';
+				}
 			}
 		}
 
