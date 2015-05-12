@@ -3,6 +3,11 @@ Changelog
 
 2015-05-11 Dan Untenzu <untenzu@webit.de>
 
+  * 0.4.0
+  * FEATURE Allow modification of file pattern via TSconfig
+
+2015-05-11 Dan Untenzu <untenzu@webit.de>
+
   * 0.3.5
   * BUGFIX Avoid PHP warnings
   * FEATURE Load t3lib scripts if existing only

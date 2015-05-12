@@ -12,10 +12,10 @@
 
 $EM_CONF[$_EXTKEY] = array (
 	'title' => 'Orphan Files',
-	'description' => 'This backend extension finds any file uploaded by an editor which is not used anymore in the CMS',
+	'description' => 'This backend extension finds any file uploaded by an editor which is not used anymore in the CMS - Not working with DAM/Workspaces/FAL, please read the manual!',
 	'category' => 'module',
-	'version' => '0.3.5',
-	'state' => 'alpha',
+	'version' => '0.4.0',
+	'state' => 'beta',
 	'uploadfolder' => false,
 	'createDirs' => '',
 	'clearcacheonload' => false,
@@ -24,7 +24,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'author_company' => '',
 	'constraints' => array (
 		'depends' => array (
-			'typo3' => '4.5.0-6.0.99',
+			'typo3' => '4.5.0-6.2.99',
 		),
 		'conflicts' => array (
 		),
