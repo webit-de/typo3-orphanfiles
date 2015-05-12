@@ -5,6 +5,11 @@ mod.web_txorphanfilesM1.showDeleteCheckbox = 0
 mod.web_txorphanfilesM1.clearCacheAfterDeletion = 0
 #mod.web_txorphanfilesM1.baseurl = http://example.com/
 
+### file pattern
+#mod.web_txorphanfilesM1.excludePattern = index.html
+#mod.web_txorphanfilesM1.folderHaystack = uploads/,fileadmin/user_upload/
+#mod.web_txorphanfilesM1.whitelistFiles = uploads/index.html
+
 ### limit the search area to only certain tables or fields
 #mod.web_txorphanfilesM1 {
 #	crawl.tt_content = *

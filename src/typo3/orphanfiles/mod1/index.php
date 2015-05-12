@@ -610,12 +610,36 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 	function findFilesystemFiles() {
 		$fileStack = array();
 
-		// regex pattern of files to exclude (index.html filers in upload folders etc)
-		$excludePattern = 'index.html';
+		// get file pattern (set defaults in PHP instead of TSconfig!)
+
+		// get regex pattern of files to exclude (index.html files in upload folders etc)
+		if(empty($this->modTSconfig['excludePattern'])) {
+			$excludePattern = 'index.html';
+		}
+		else {
+			$excludePattern = $this->modTSconfig['excludePattern'];
+		}
 
 		// get all folders which are supposed to be searched
 		// $haystack = path1/,path2/
-		$folderHaystack = 'uploads/, fileadmin/user_upload/';
+		if(empty($this->modTSconfig['folderHaystack'])) {
+			$folderHaystack = 'uploads/,fileadmin/user_upload/';
+		}
+		else {
+			$folderHaystack = $this->modTSconfig['folderHaystack'];
+		}
+
+		// get set of files to exclude from
+		if(empty($this->modTSconfig['whitelistFiles'])) {
+			$whitelistFiles = 'uploads/index.html';
+		}
+		else {
+			$whitelistFiles = $this->modTSconfig['whitelistFiles'];
+		}
+		$whitelistFiles = explode(',', $whitelistFiles);
+		foreach ($whitelistFiles as $key => $whitelistFile) {
+			$whitelistFiles[$key] = trim($whitelistFile);
+		}
 
 		// crawl folders
 		$folders = explode(',', $folderHaystack);
@@ -631,10 +655,7 @@ class tx_orphanfiles_module1 extends t3lib_SCbase {
 		// select files only (discard md5 hash of path and file)
 		$fileStack = array_values($fileStack);
 
-		// exclude a set of given files
-		$whitelistFiles = array(
-			'uploads/index.html',
-		);
+		// exclude whitelisted files
 		$fileStack = array_diff($fileStack, $whitelistFiles);
 
 		return $fileStack;
