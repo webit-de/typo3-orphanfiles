@@ -96,6 +96,57 @@ Reference
    Default
          (None)
 
+
+.. container:: table-row
+
+   Property
+         excludePattern
+
+   Data type
+         String
+
+   Description
+         Regex pattern of files to exclude. E.g. »index.html« files in
+         upload folders etc.
+
+   Default
+         index.html
+
+.. container:: table-row
+
+   Property
+         folderHaystack
+
+   Data type
+         String
+
+   Description
+         All folders on the filesystem which are supposed to be searched
+         for orphaned files (»uploads/« and »fileadmin/user_upload/« by default).
+         You may combine this with the »crawl.[table]«-pattern, to find all
+         orphaned files in the uploadpath of a certain extension.
+         Comma separated values, every path must have a trailing slash.
+
+   Default
+         uploads/,fileadmin/user_upload/
+
+
+.. container:: table-row
+
+   Property
+         whitelistFiles
+
+   Data type
+         String
+
+   Description
+         Set of files to exclude from search for existing references.
+         Comma separated values, relative path.
+
+   Default
+         uploads/index.html
+
+
 .. container:: table-row
 
    Property

@@ -17,3 +17,7 @@ What does it do?
     an editor) will remain if it's referenced in the CMS, but the original
     file in the filestorage in »/fileadmin/user\_upload/« will be marked
     as orphaned
+
+- Please note: This extension was conceived for TYPO3 version 4.5 and
+  therefore ignores FAL! In TYPO3 versions higher than 6.0 it should only
+  be used to search for orphaned files of legacy extensions!
