@@ -31,8 +31,6 @@
  *
  */
 
-ini_set('max_execution_time', 3600);
-
 unset($MCONF);
 require ('conf.php');
 require ($BACK_PATH.'init.php');
