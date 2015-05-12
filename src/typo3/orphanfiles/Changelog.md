@@ -1,7 +1,12 @@
 Changelog
 =========
 
-2015-05-11 Dan Untenzu <untenzu@webit.de>
+2015-05-12 Dan Untenzu <untenzu@webit.de>
+
+  * 0.4.1
+  * BUGFIX Remove ini_set command
+
+2015-05-12 Dan Untenzu <untenzu@webit.de>
 
   * 0.4.0
   * FEATURE Allow modification of file pattern via TSconfig
