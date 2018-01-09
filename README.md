@@ -1,6 +1,8 @@
 Orphan Files
 ============
 
+:collision: **Outdated - This extension was based on TYPO3 without FAL, see [Issues](https://github.com/webit-de/typo3-orphanfiles/issues/1)**
+
 This TYPO3 backend extension finds any file uploaded by an editor which is not used anymore in the CMS.
 
 Requirements
