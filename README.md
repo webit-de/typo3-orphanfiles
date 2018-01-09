@@ -3,15 +3,23 @@ Orphan Files
 
 This TYPO3 backend extension finds any file uploaded by an editor which is not used anymore in the CMS.
 
-TYPO3 Package
+Requirements
+------------
+
+* PHP
+* TYPO3
+
+Installation
 -------------
 
 TER Entry http://typo3.org/extensions/repository/view/orphanfiles/
 
+Packagist Entry https://packagist.org/packages/webit-de/orphanfiles/
+
 Source
 ------
 
-https://github.com/webit-de/typo3-orphanfiles/tree/master/src/typo3/orphanfiles/
+https://github.com/webit-de/typo3-orphanfiles/
 
 Documentation
 -------------
@@ -39,7 +47,7 @@ Bernhard Kraft <kraftb@gmx.net> and Thorsten Reichelt <Thorsten_Reichelt@gmx.de>
 Changelog
 ---------
 
-https://github.com/webit-de/typo3-orphanfiles/blob/master/src/typo3/orphanfiles/Changelog.md
+[./Changelog.md](./Changelog.md)
 
 Contribution
 ------------
