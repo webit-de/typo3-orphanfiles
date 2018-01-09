@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2017-12-28 Dan Untenzu <untenzu@webit.de>
+
+  * 0.5.0
+  * TASK Move files to repository root
+  * TASK Mark extension as outdated - Help welcome!
+
 2015-05-12 Dan Untenzu <untenzu@webit.de>
 
   * 0.4.1
