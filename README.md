@@ -49,7 +49,7 @@ Bernhard Kraft <kraftb@gmx.net> and Thorsten Reichelt <Thorsten_Reichelt@gmx.de>
 Changelog
 ---------
 
-[./Changelog.md](./Changelog.md)
+[./Changelog.md](CHANGELOG.md)
 
 Contribution
 ------------
